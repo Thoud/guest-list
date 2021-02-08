@@ -8,7 +8,7 @@ const globalStyles = css`
     box-sizing: border-box;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
       Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-size: 18px;
+    font-size: 17px;
     color: #4d4545;
   }
 
@@ -28,6 +28,16 @@ const globalStyles = css`
     font-size: 1.333rem;
     font-weight: 500;
     margin: 0 0 1.354vw 4.792vw;
+  }
+
+  input,
+  button {
+    background-color: #d9d9d9;
+    border: none;
+  }
+
+  button {
+    cursor: pointer;
   }
 `;
 

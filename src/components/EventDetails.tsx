@@ -15,13 +15,7 @@ const eventDetailsStyling = css`
   grid-template:
     2.448vw 2.135vw 2.031vw 2.448vw 2.135vw /
     25.281vw 1.563vw 9.411vw repeat(2, 1.563vw 6.372vw);
-  /* First Breackpoint: 1450 */
-
-  input,
-  button {
-    background-color: #d9d9d9;
-    border: none;
-  }
+  /* First Breackpoint: 1425 */
 
   #labelEventName {
     grid-area: 1 / 1;
