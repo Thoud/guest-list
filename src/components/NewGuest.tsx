@@ -7,7 +7,7 @@ const gridNewGuest = css`
 
 const newGuestStyling = css`
   background-color: #ffffff;
-  width: 39.896vw;
+  width: 55.25vw;
   margin-left: 4.792vw;
   box-shadow: 0px 4px 4px #00000040;
 `;
