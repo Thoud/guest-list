@@ -21,7 +21,7 @@ const globalStyles = css`
   h1 {
     font-size: 2.667rem;
     font-weight: bold;
-    margin: 4.115vw 0 2.135vw 4.792vw;
+    margin: 3.159vw 0 2.135vw 4.792vw;
   }
 
   h2 {

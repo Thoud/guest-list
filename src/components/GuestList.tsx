@@ -8,7 +8,7 @@ const gridGuestList = css`
 const guestListStyling = css`
   background-color: #ffffff;
   width: 20.729vw;
-  margin-left: 4.792vw;
+  margin-left: 4.892vw;
   box-shadow: 0px 4px 4px #00000040;
 `;
 

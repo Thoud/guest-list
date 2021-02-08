@@ -14,7 +14,8 @@ const eventDetailsStyling = css`
   display: grid;
   grid-template:
     2.448vw 2.135vw 2.031vw 2.448vw 2.135vw /
-    26.062vw 1.563vw 9vw repeat(2, 1.563vw 6.1865vw);
+    25.281vw 1.563vw 9.411vw repeat(2, 1.563vw 6.372vw);
+  /* First Breackpoint: 1450 */
 
   input,
   button {
@@ -36,7 +37,6 @@ const eventDetailsStyling = css`
 
   #date {
     grid-area: 2 / 3;
-    text-align: center;
   }
 
   #labelTime {
@@ -45,7 +45,6 @@ const eventDetailsStyling = css`
 
   #time {
     grid-area: 2 / 5;
-    text-align: center;
   }
 
   #labelMaxGuests {
@@ -54,7 +53,6 @@ const eventDetailsStyling = css`
 
   #maxGuests {
     grid-area: 2 / 7;
-    text-align: center;
   }
 
   #labelAdress {
