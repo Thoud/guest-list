@@ -15,6 +15,95 @@ const grid = css`
   }
 `;
 
+// Code to interact with the backend
+const baseURL = '';
+
+async function getEvent(url: string) {
+  const response = await fetch(`${url}/event`);
+  const event = await response.json();
+  console.log(event);
+}
+
+async function patchEvent(
+  url: string,
+  name: string,
+  eventAddress: string,
+  eventDate: string,
+  eventTime: string,
+  eventMaxGuests: string,
+) {
+  const response = await fetch(`${url}/modEvent`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      eventName: name,
+      address: eventAddress,
+      date: eventDate,
+      time: eventTime,
+      maxGuests: eventMaxGuests,
+    }),
+  });
+  const updatedEvent = await response.json();
+  console.log(updatedEvent);
+}
+
+async function getGuests(url: string) {
+  const response = await fetch(`${url}/`);
+  const allGuests = await response.json();
+  console.log(allGuests);
+}
+
+async function postNewGuest(
+  url: string,
+  nameFirst: string,
+  nameLast: string,
+  attend: boolean,
+) {
+  const response = await fetch(`${url}/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      firstName: nameFirst,
+      lastName: nameLast,
+      attending: attend,
+    }),
+  });
+  const createdGuest = await response.json();
+  console.log(createdGuest);
+}
+
+async function patchGuest(
+  id: number,
+  url: string,
+  nameFirst: string,
+  nameLast: string,
+  attend: boolean,
+) {
+  const response = await fetch(`${url}/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      firstName: nameFirst,
+      lastName: nameLast,
+      attending: attend,
+    }),
+  });
+  const updateGuest = await response.json();
+  console.log(updateGuest);
+}
+
+async function deleteGuest(id: number, url: string) {
+  const response = await fetch(`${url}/${id}`, { method: 'DELETE' });
+  const deletedGuest = await response.json();
+  console.log(deletedGuest);
+}
+
 export default function App() {
   return (
     <>
