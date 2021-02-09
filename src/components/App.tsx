@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { useEffect, useState } from 'react';
 import EventDetails from './EventDetails';
 import GuestList from './GuestList';
 import NewGuest from './NewGuest';
@@ -105,6 +106,14 @@ async function deleteGuest(id: number, url: string) {
 }
 
 export default function App() {
+  const [event, setEvent] = useState({});
+  const [guestList, setGuestList] = useState([]);
+  const [newGuest, setNewGuest] = useState({});
+  const [updateGuest, setUpdateGuest] = useState({});
+  const [removeGuest, setRemoveGuest] = useState({});
+
+  useEffect(() => {}, []);
+
   return (
     <>
       <h1>Guest List Manager</h1>
