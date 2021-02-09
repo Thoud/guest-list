@@ -67,8 +67,7 @@ const newGuestStyling = css`
 
   @media screen and (max-width: 820px) {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    flex-wrap: wrap;
     height: 40vh;
 
     label {
@@ -88,9 +87,20 @@ const newGuestStyling = css`
       height: 4vh;
     }
 
+    label,
+    input,
+    button {
+      flex: 1 0 100%;
+    }
+
     #attending {
-      margin: 0;
+      margin: 0.8vh 0 0 0;
       height: auto;
+      flex: 0 0 10%;
+    }
+
+    #labelAttending {
+      flex: 0 0 10%;
     }
   }
 `;

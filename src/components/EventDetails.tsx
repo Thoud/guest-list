@@ -75,8 +75,7 @@ const eventDetailsStyling = css`
 
   @media screen and (max-width: 820px) {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    flex-wrap: wrap;
     height: 60vh;
 
     label {
@@ -94,6 +93,12 @@ const eventDetailsStyling = css`
     input,
     button {
       height: 4vh;
+    }
+
+    label,
+    input,
+    button {
+      flex: 1 0 100%;
     }
   }
 `;
