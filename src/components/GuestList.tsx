@@ -7,12 +7,26 @@ const gridGuestList = css`
   h2 {
     margin-left: 4.892vw;
   }
+
+  @media screen and (max-width: 1425px) {
+    margin-bottom: 8.913vw;
+
+    h2 {
+      margin-left: 0;
+    }
+  }
+
+  @media screen and (max-width: 950px) {
+    h2 {
+      margin-left: 3.125vw;
+    }
+  }
 `;
 
 const guestListStyling = css`
   background-color: #ffffff;
   width: 29.375vw;
-  height: 36.118vw;
+  height: 37.5vw;
   margin-left: 4.892vw;
   box-shadow: 0px 4px 4px #00000040;
   padding: 1.563vw;
@@ -21,7 +35,7 @@ const guestListStyling = css`
   align-items: center;
 
   .filter {
-    width: 26.272vw;
+    width: 100%;
     margin-bottom: 1.563vw;
     display: flex;
     justify-content: space-between;
@@ -31,10 +45,10 @@ const guestListStyling = css`
     padding: 0.514vw;
   }
 
-  .container {
-    width: 26.272vw;
+  .attendeesList {
+    width: 100%;
     height: 100%;
-    overflow: scroll;
+    overflow: auto;
   }
 
   .attendees {
@@ -43,6 +57,33 @@ const guestListStyling = css`
     height: 5vw;
     border: none;
     margin-bottom: 1.563vw;
+  }
+
+  @media screen and (max-width: 1425px) {
+    width: 81.563vw;
+    padding: 3.125vw;
+    margin-left: 0;
+    height: 100%;
+
+    .attendeesList {
+      overflow: visible;
+    }
+  }
+
+  @media screen and (max-width: 950px) {
+    width: 93vw;
+
+    .filter {
+      margin-bottom: 3.222vw;
+    }
+
+    button {
+      padding: 2.15vw;
+    }
+
+    .attendees {
+      height: 5vh;
+    }
   }
 `;
 
@@ -58,7 +99,7 @@ export default function GuestList() {
           <button>Clear list</button>
         </div>
 
-        <div className="container">
+        <div className="attendeesList">
           <div className="attendees" />
         </div>
       </div>

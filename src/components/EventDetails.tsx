@@ -8,14 +8,14 @@ const gridEventDetails = css`
 const eventDetailsStyling = css`
   background-color: #ffffff;
   width: 55.25vw;
+  height: 15vw;
   margin: 0 0 4.583vw 4.792vw;
   box-shadow: 0px 4px 4px #00000040;
   padding: 1.563vw;
   display: grid;
   grid-template:
-    2.448vw 2.135vw 2.031vw 2.448vw 2.135vw /
-    25.281vw 1.563vw 9.411vw repeat(2, 1.563vw 6.372vw);
-  /* First Breackpoint: 1425 */
+    21.86% 19.07% 18.14% 21.86% 19.07% /
+    48.5% 3% 18.06% repeat(2, 3% 12.22%);
 
   #labelEventName {
     grid-area: 1 / 1;
@@ -60,6 +60,42 @@ const eventDetailsStyling = css`
   button {
     grid-area: 5 / 5 / 6 / 8;
   }
+
+  @media screen and (max-width: 1425px) {
+    width: 81.563vw;
+    height: 22vw;
+    padding: 3.125vw;
+    margin-left: 0;
+  }
+
+  @media screen and (max-width: 950px) {
+    width: 93vw;
+    height: 40vw;
+  }
+
+  @media screen and (max-width: 820px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 60vh;
+
+    label {
+      margin-bottom: 1vw;
+    }
+
+    input {
+      margin-bottom: 4vw;
+    }
+
+    button {
+      margin-top: 4vw;
+    }
+
+    input,
+    button {
+      height: 4vh;
+    }
+  }
 `;
 
 export default function EventDetails() {
@@ -86,7 +122,7 @@ export default function EventDetails() {
         <label id="labelMaxGuests" htmlFor="maxGuests">
           Max Guests
         </label>
-        <input id="maxGuests" type="number" />
+        <input id="maxGuests" type="number" min="0" />
 
         <label id="labelAdress" htmlFor="adress">
           Address

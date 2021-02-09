@@ -1,6 +1,6 @@
+import { css, Global } from '@emotion/react';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { css, Global } from '@emotion/react';
 import App from './components/App';
 
 const globalStyles = css`
@@ -39,6 +39,48 @@ const globalStyles = css`
   button {
     cursor: pointer;
   }
+
+  @media screen and (max-width: 1425px) {
+    * {
+      font-size: 20px;
+    }
+
+    #root {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1,
+    h2 {
+      margin-left: 0;
+    }
+  }
+
+  @media screen and (max-width: 1170px) {
+    * {
+      font-size: 18px;
+    }
+  }
+
+  @media screen and (max-width: 1035px) {
+    * {
+      font-size: 16px;
+    }
+  }
+
+  @media screen and (max-width: 950px) {
+    h1,
+    h2 {
+      margin-left: 3.125vw;
+    }
+  }
+
+  @media screen and (max-width: 820px) {
+    h2 {
+      margin-top: 4vh;
+    }
+  }
 `;
 
 ReactDOM.render(
@@ -46,5 +88,5 @@ ReactDOM.render(
     <Global styles={globalStyles} />
     <App />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );

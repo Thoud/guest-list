@@ -1,12 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import EventDetails from './EventDetails';
 import GuestList from './GuestList';
 import NewGuest from './NewGuest';
-import EventDetails from './EventDetails';
 
 const grid = css`
   display: grid;
-  grid-template: 1fr 1fr / 1.5fr 1fr;
+  grid-template: 0.95fr 0.95fr / 1.5fr 1fr;
+
+  @media screen and (max-width: 1425px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 export default function App() {
