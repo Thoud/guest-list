@@ -1,5 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { useState } from 'react';
+import { Event } from '../interfaces';
 
 const gridEventDetails = css`
   grid-area: 1 / 1;
@@ -76,7 +78,7 @@ const eventDetailsStyling = css`
   @media screen and (max-width: 820px) {
     display: flex;
     flex-wrap: wrap;
-    height: 60vh;
+    height: 70vh;
 
     label {
       margin-bottom: 1vw;
@@ -103,7 +105,14 @@ const eventDetailsStyling = css`
   }
 `;
 
-export default function EventDetails() {
+interface Props {
+  event: Event;
+  setNewEventInfo: Function;
+}
+
+export default function EventDetails(props: Props) {
+  const [userInput, setUserInput] = useState<Event>(props.event);
+
   return (
     <div css={gridEventDetails}>
       <h2>Event Details</h2>
@@ -112,29 +121,67 @@ export default function EventDetails() {
         <label id="labelEventName" htmlFor="eventName">
           Event Name
         </label>
-        <input id="eventName" type="text" />
+        <input
+          id="eventName"
+          type="text"
+          value={props.event.eventName}
+          onChange={({ target }) => {
+            setUserInput({ ...props.event, eventName: target.value });
+          }}
+        />
 
         <label id="labelDate" htmlFor="date">
           Date
         </label>
-        <input id="date" type="date" />
+        <input
+          id="date"
+          type="date"
+          value={props.event.date}
+          onChange={({ target }) => {
+            setUserInput({ ...props.event, date: target.value });
+          }}
+        />
 
         <label id="labelTime" htmlFor="time">
           Time
         </label>
-        <input id="time" type="time" />
+        <input
+          id="time"
+          type="time"
+          value={props.event.time}
+          onChange={({ target }) => {
+            setUserInput({ ...props.event, time: target.value });
+          }}
+        />
 
         <label id="labelMaxGuests" htmlFor="maxGuests">
           Max Guests
         </label>
-        <input id="maxGuests" type="number" min="0" />
+        <input
+          id="maxGuests"
+          type="number"
+          min="0"
+          value={props.event.maxGuests}
+          onChange={({ target }) => {
+            setUserInput({ ...props.event, maxGuests: target.value });
+          }}
+        />
 
         <label id="labelAdress" htmlFor="adress">
           Address
         </label>
-        <input id="adress" type="text" />
+        <input
+          id="adress"
+          type="text"
+          value={props.event.address}
+          onChange={({ target }) => {
+            setUserInput({ ...props.event, address: target.value });
+          }}
+        />
 
-        <button>Set Event Details</button>
+        <button onClick={() => props.setNewEventInfo(userInput)}>
+          Set Event Details
+        </button>
       </div>
     </div>
   );
