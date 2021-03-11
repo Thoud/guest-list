@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useEffect, useState } from 'react';
-import { Event } from '../interfaces';
+import { Event } from '../types';
 import EventDetails from './EventDetails';
 import GuestList from './GuestList';
 import NewGuest from './NewGuest';
@@ -76,34 +76,33 @@ const baseUrl = 'https://express-guest-list-api.herokuapp.com';
 // }
 
 export default function App() {
-  const [event, setEvent] = useState<Event>({});
-  const [newEventInfo, setNewEventInfo] = useState<Event>(event);
+  const [event, setEvent] = useState<Event>();
   // const [guestList, setGuestList] = useState([]);
   // const [newGuest, setNewGuest] = useState({});
   // const [updateGuest, setUpdateGuest] = useState({});
   // const [removeGuest, setRemoveGuest] = useState({});
 
   useEffect(() => {
-    async function getEvent(url: string, setter: Function) {
+    async function getEvent(url: string, setter: (value: Event) => void) {
       const response = await fetch(`${url}/event`);
       const eventDetails = await response.json();
       console.log(eventDetails);
       setter(eventDetails);
     }
+
     getEvent(baseUrl, setEvent);
   }, []);
 
   useEffect(() => {
     async function patchEvent(
       url: string,
-      setter: Function,
-      name?: string,
-      eventAddress?: string,
-      eventDate?: string,
-      eventTime?: string,
-      eventMaxGuests?: string,
+      name: string,
+      eventAddress: string,
+      eventDate: string,
+      eventTime: string,
+      eventMaxGuests: string,
     ) {
-      const response = await fetch(`${url}/modEvent`, {
+      await fetch(`${url}/modEvent`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -116,32 +115,33 @@ export default function App() {
           maxGuests: eventMaxGuests,
         }),
       });
-      const updatedEvent = await response.json();
-      setter(updatedEvent);
     }
 
     console.log('sending');
 
-    patchEvent(
-      baseUrl,
-      setEvent,
-      newEventInfo.eventName,
-      newEventInfo.address,
-      newEventInfo.date,
-      newEventInfo.time,
-      newEventInfo.maxGuests,
-    );
-  }, [newEventInfo]);
+    if (event) {
+      patchEvent(
+        baseUrl,
+        event.eventName,
+        event.address,
+        event.date,
+        event.time,
+        event.maxGuests,
+      );
+    }
+  }, [event]);
 
   return (
     <>
       <h1>Guest List Manager</h1>
 
-      <div css={grid}>
-        <EventDetails event={event} setNewEventInfo={setNewEventInfo} />
-        <NewGuest />
-        <GuestList />
-      </div>
+      {event && (
+        <div css={grid}>
+          <EventDetails event={event} setEvent={setEvent} />
+          <NewGuest />
+          <GuestList />
+        </div>
+      )}
     </>
   );
 }

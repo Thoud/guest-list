@@ -1,7 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useState } from 'react';
-import { Event } from '../interfaces';
+import { Event } from '../types';
+import Overlay from './Overlay';
 
 const gridEventDetails = css`
   grid-area: 1 / 1;
@@ -105,13 +106,14 @@ const eventDetailsStyling = css`
   }
 `;
 
-interface Props {
+type Props = {
   event: Event;
-  setNewEventInfo: Function;
-}
+  setEvent: (value: Event) => void;
+};
 
 export default function EventDetails(props: Props) {
-  const [userInput, setUserInput] = useState<Event>(props.event);
+  const [userInput, setUserInput] = useState(props.event);
+  const [overlay, setOverlay] = useState(false);
 
   return (
     <div css={gridEventDetails}>
@@ -124,9 +126,9 @@ export default function EventDetails(props: Props) {
         <input
           id="eventName"
           type="text"
-          value={props.event.eventName}
+          value={userInput.eventName}
           onChange={({ target }) => {
-            setUserInput({ ...props.event, eventName: target.value });
+            setUserInput({ ...userInput, eventName: target.value });
           }}
         />
 
@@ -136,9 +138,9 @@ export default function EventDetails(props: Props) {
         <input
           id="date"
           type="date"
-          value={props.event.date}
+          value={userInput.date}
           onChange={({ target }) => {
-            setUserInput({ ...props.event, date: target.value });
+            setUserInput({ ...userInput, date: target.value });
           }}
         />
 
@@ -148,9 +150,9 @@ export default function EventDetails(props: Props) {
         <input
           id="time"
           type="time"
-          value={props.event.time}
+          value={userInput.time}
           onChange={({ target }) => {
-            setUserInput({ ...props.event, time: target.value });
+            setUserInput({ ...userInput, time: target.value });
           }}
         />
 
@@ -161,9 +163,9 @@ export default function EventDetails(props: Props) {
           id="maxGuests"
           type="number"
           min="0"
-          value={props.event.maxGuests}
+          value={userInput.maxGuests}
           onChange={({ target }) => {
-            setUserInput({ ...props.event, maxGuests: target.value });
+            setUserInput({ ...userInput, maxGuests: target.value });
           }}
         />
 
@@ -173,15 +175,22 @@ export default function EventDetails(props: Props) {
         <input
           id="adress"
           type="text"
-          value={props.event.address}
+          value={userInput.address}
           onChange={({ target }) => {
-            setUserInput({ ...props.event, address: target.value });
+            setUserInput({ ...userInput, address: target.value });
           }}
         />
 
-        <button onClick={() => props.setNewEventInfo(userInput)}>
+        <button
+          onClick={() => {
+            setOverlay(true);
+            props.setEvent(userInput);
+          }}
+        >
           Set Event Details
         </button>
+
+        {overlay && <Overlay setOverlay={setOverlay} />}
       </div>
     </div>
   );
