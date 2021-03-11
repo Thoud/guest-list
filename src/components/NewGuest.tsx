@@ -1,5 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { useState } from 'react';
+import { NewGuestType } from '../types';
+import WarningOverlay from './WarningOverlay';
 
 const gridNewGuest = css`
   grid-area: 2 / 1;
@@ -105,7 +108,19 @@ const newGuestStyling = css`
   }
 `;
 
-export default function NewGuest() {
+type Props = {
+  setNewGuest: (value: NewGuestType) => void;
+};
+
+export default function NewGuest(props: Props) {
+  const [warning, setWarning] = useState(false);
+  const [attending, setAttending] = useState(true);
+  const [guest, setGuest] = useState({
+    firstName: '',
+    lastName: '',
+    attending: false,
+  });
+
   return (
     <div css={gridNewGuest}>
       <h2>New Guest</h2>
@@ -114,19 +129,51 @@ export default function NewGuest() {
         <label id="labelFirstName" htmlFor="firstName">
           First Name
         </label>
-        <input id="firstName" type="text" />
+        <input
+          id="firstName"
+          type="text"
+          onChange={({ target }) => {
+            setGuest({ ...guest, firstName: target.value });
+          }}
+        />
 
         <label id="labelLastName" htmlFor="lastName">
           Last Name
         </label>
-        <input id="lastName" type="text" />
+        <input
+          id="lastName"
+          type="text"
+          onChange={({ target }) => {
+            setGuest({ ...guest, lastName: target.value });
+          }}
+        />
 
         <label id="labelAttending" htmlFor="attending">
           Attending
         </label>
-        <input id="attending" type="checkbox" />
+        <input
+          id="attending"
+          type="checkbox"
+          value="attending"
+          onClick={() => {
+            setAttending(!attending);
+            setGuest({ ...guest, attending: attending });
+          }}
+        />
 
-        <button>Add Guest</button>
+        <button
+          onClick={() => {
+            if (guest.firstName && guest.lastName) {
+              props.setNewGuest(guest);
+            } else {
+              setWarning(true);
+            }
+          }}
+        >
+          Add Guest
+        </button>
+
+        {warning && <WarningOverlay setWarning={setWarning} />}
       </div>
     </div>
   );

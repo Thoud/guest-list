@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useEffect, useState } from 'react';
-import { Event } from '../types';
+import { Event, Guest, NewGuestType } from '../types';
 import EventDetails from './EventDetails';
 import GuestList from './GuestList';
 import NewGuest from './NewGuest';
@@ -17,57 +17,7 @@ const grid = css`
   }
 `;
 
-// Code to interact with the backend
 const baseUrl = 'https://express-guest-list-api.herokuapp.com';
-
-// async function getGuests(url: string) {
-//   const response = await fetch(`${url}/`);
-//   const allGuests = await response.json();
-//   return allGuests;
-// }
-
-// async function postNewGuest(
-//   url: string,
-//   nameFirst: string,
-//   nameLast: string,
-//   attend: boolean,
-// ) {
-//   const response = await fetch(`${url}/`, {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify({
-//       firstName: nameFirst,
-//       lastName: nameLast,
-//       attending: attend,
-//     }),
-//   });
-//   const createdGuest = await response.json();
-//   return createdGuest;
-// }
-
-// async function patchGuest(
-//   id: number,
-//   url: string,
-//   nameFirst: string,
-//   nameLast: string,
-//   attend: boolean,
-// ) {
-//   const response = await fetch(`${url}/${id}`, {
-//     method: 'PATCH',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify({
-//       firstName: nameFirst,
-//       lastName: nameLast,
-//       attending: attend,
-//     }),
-//   });
-//   const updateGuest = await response.json();
-//   return updateGuest;
-// }
 
 // async function deleteGuest(id: number, url: string) {
 //   const response = await fetch(`${url}/${id}`, { method: 'DELETE' });
@@ -77,20 +27,24 @@ const baseUrl = 'https://express-guest-list-api.herokuapp.com';
 
 export default function App() {
   const [event, setEvent] = useState<Event>();
-  // const [guestList, setGuestList] = useState([]);
-  // const [newGuest, setNewGuest] = useState({});
-  // const [updateGuest, setUpdateGuest] = useState({});
-  // const [removeGuest, setRemoveGuest] = useState({});
+  const [guestList, setGuestList] = useState<Guest[]>();
+  const [newGuest, setNewGuest] = useState<NewGuestType>();
 
   useEffect(() => {
     async function getEvent(url: string, setter: (value: Event) => void) {
       const response = await fetch(`${url}/event`);
       const eventDetails = await response.json();
-      console.log(eventDetails);
       setter(eventDetails);
     }
 
+    async function getGuests(url: string, setter: (value: Guest[]) => void) {
+      const response = await fetch(`${url}/`);
+      const allGuests = await response.json();
+      setter(allGuests);
+    }
+
     getEvent(baseUrl, setEvent);
+    getGuests(baseUrl, setGuestList);
   }, []);
 
   useEffect(() => {
@@ -117,9 +71,9 @@ export default function App() {
       });
     }
 
-    console.log('sending');
-
     if (event) {
+      console.log('sending new event details');
+
       patchEvent(
         baseUrl,
         event.eventName,
@@ -131,15 +85,61 @@ export default function App() {
     }
   }, [event]);
 
+  useEffect(() => {
+    async function postNewGuest(
+      url: string,
+      setter: (value: Guest[]) => void,
+      nameFirst: string,
+      nameLast: string,
+      attend: boolean,
+    ) {
+      const response = await fetch(`${url}/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: nameFirst,
+          lastName: nameLast,
+          attending: attend,
+        }),
+      });
+
+      const guest = await response.json();
+
+      if (guestList) {
+        const newGuestList = guestList.concat(guest);
+        setter(newGuestList);
+      }
+    }
+
+    if (newGuest) {
+      if (newGuest.firstName !== '' && newGuest.lastName !== '') {
+        console.log('sending new guest');
+        console.log(newGuest);
+
+        postNewGuest(
+          baseUrl,
+          setGuestList,
+          newGuest.firstName,
+          newGuest.lastName,
+          newGuest.attending,
+        );
+
+        setNewGuest({ firstName: '', lastName: '', attending: false });
+      }
+    }
+  }, [newGuest, guestList]);
+
   return (
     <>
       <h1>Guest List Manager</h1>
 
-      {event && (
+      {event && guestList && (
         <div css={grid}>
           <EventDetails event={event} setEvent={setEvent} />
-          <NewGuest />
-          <GuestList />
+          <NewGuest setNewGuest={setNewGuest} />
+          <GuestList guestList={guestList} />
         </div>
       )}
     </>

@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { Guest } from '../types';
 
 const gridGuestList = css`
   grid-area: 1 / 2 / span 2 / 2;
@@ -34,17 +35,6 @@ const guestListStyling = css`
   flex-direction: column;
   align-items: center;
 
-  .filter {
-    width: 100%;
-    margin-bottom: 1.563vw;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  button {
-    padding: 0.514vw;
-  }
-
   .attendeesList {
     width: 100%;
     height: 100%;
@@ -54,9 +44,29 @@ const guestListStyling = css`
   .attendees {
     background-color: #d9d9d9;
     width: 100%;
-    height: 5vw;
     border: none;
     margin-bottom: 1.563vw;
+    padding: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .attendees p {
+    width: 100%;
+    margin-left: 2rem;
+    font-size: 1.1rem;
+  }
+
+  .attendees input {
+    margin: 1rem 2rem;
+  }
+
+  .attendees button {
+    margin-right: 2rem;
+    background-color: #ffffff;
+    padding: 0.5rem 1rem;
   }
 
   @media screen and (max-width: 1425px) {
@@ -72,35 +82,42 @@ const guestListStyling = css`
 
   @media screen and (max-width: 950px) {
     width: 93vw;
-
-    .filter {
-      margin-bottom: 3.222vw;
-    }
-
-    button {
-      padding: 2.15vw;
-    }
-
-    .attendees {
-      height: 5vh;
-    }
   }
 `;
 
-export default function GuestList() {
+type Props = {
+  guestList: Guest[];
+};
+
+export default function GuestList(props: Props) {
   return (
     <div css={gridGuestList}>
       <h2>Guest List</h2>
 
       <div css={guestListStyling}>
-        <div className="filter">
-          <button>Attending</button>
-          <button>Not attending</button>
-          <button>Clear list</button>
-        </div>
-
         <div className="attendeesList">
-          <div className="attendees" />
+          {props.guestList.map((guest: Guest) => {
+            return (
+              <div key={guest.id} className="attendees">
+                <p>
+                  {guest.firstName} {guest.lastName}
+                </p>
+
+                <div>
+                  {guest.attending && (
+                    <input id="attending" type="checkbox" disabled checked />
+                  )}
+                  {!guest.attending && (
+                    <input id="attending" type="checkbox" disabled />
+                  )}
+
+                  <label htmlFor="attending">Attending</label>
+                </div>
+
+                <button>Delete</button>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
