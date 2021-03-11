@@ -87,6 +87,7 @@ const guestListStyling = css`
 
 type Props = {
   guestList: Guest[];
+  setDeleteGuestObj: (value: Guest) => void;
 };
 
 export default function GuestList(props: Props) {
@@ -114,7 +115,13 @@ export default function GuestList(props: Props) {
                   <label htmlFor="attending">Attending</label>
                 </div>
 
-                <button>Delete</button>
+                <button
+                  onClick={() => {
+                    props.setDeleteGuestObj(guest);
+                  }}
+                >
+                  Delete
+                </button>
               </div>
             );
           })}

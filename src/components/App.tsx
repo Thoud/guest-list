@@ -19,16 +19,11 @@ const grid = css`
 
 const baseUrl = 'https://express-guest-list-api.herokuapp.com';
 
-// async function deleteGuest(id: number, url: string) {
-//   const response = await fetch(`${url}/${id}`, { method: 'DELETE' });
-//   const deletedGuest = await response.json();
-//   return deletedGuest;
-// }
-
 export default function App() {
   const [event, setEvent] = useState<Event>();
   const [guestList, setGuestList] = useState<Guest[]>();
   const [newGuest, setNewGuest] = useState<NewGuestType>();
+  const [deleteGuestObj, setDeleteGuestObj] = useState<Guest>();
 
   useEffect(() => {
     async function getEvent(url: string, setter: (value: Event) => void) {
@@ -116,7 +111,6 @@ export default function App() {
     if (newGuest) {
       if (newGuest.firstName !== '' && newGuest.lastName !== '') {
         console.log('sending new guest');
-        console.log(newGuest);
 
         postNewGuest(
           baseUrl,
@@ -131,6 +125,27 @@ export default function App() {
     }
   }, [newGuest, guestList]);
 
+  useEffect(() => {
+    async function deleteGuest(id: number, url: string): Promise<Guest> {
+      const response = await fetch(`${url}/${id}`, { method: 'DELETE' });
+      const deletedGuest = await response.json();
+      return deletedGuest;
+    }
+
+    if (deleteGuestObj && guestList) {
+      console.log('deleting guest');
+
+      deleteGuest(Number(deleteGuestObj.id), baseUrl);
+
+      const newGuestList = guestList.filter(
+        (guest) => guest.id !== deleteGuestObj.id,
+      );
+
+      setDeleteGuestObj(undefined);
+      setGuestList(newGuestList);
+    }
+  }, [deleteGuestObj, guestList]);
+
   return (
     <>
       <h1>Guest List Manager</h1>
@@ -139,7 +154,10 @@ export default function App() {
         <div css={grid}>
           <EventDetails event={event} setEvent={setEvent} />
           <NewGuest setNewGuest={setNewGuest} />
-          <GuestList guestList={guestList} />
+          <GuestList
+            guestList={guestList}
+            setDeleteGuestObj={setDeleteGuestObj}
+          />
         </div>
       )}
     </>
